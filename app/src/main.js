@@ -1,8 +1,21 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from "vue";
+import App from "./App.vue";
+import Vuex from "vuex";
+import drizzleVuePlugin from "@drizzle/vue-plugin";
+import drizzleOptions from "./drizzleOptions";
 
-Vue.config.productionTip = false
+// Register Vuex
+Vue.use(Vuex);
+
+// Create and configure your Vuex Store
+const store = new Vuex.Store({ state: {} });
+
+// Register the drizzleVuePlugin
+Vue.use(drizzleVuePlugin, { store, drizzleOptions });
+
+Vue.config.productionTip = false;
 
 new Vue({
-  render: h => h(App),
-}).$mount('#app')
+    store,
+    render: h => h(App)
+}).$mount("#app");
