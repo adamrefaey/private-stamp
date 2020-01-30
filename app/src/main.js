@@ -3,6 +3,7 @@ import App from "./App.vue";
 import Vuex from "vuex";
 import drizzleVuePlugin from "@drizzle/vue-plugin";
 import drizzleOptions from "./drizzleOptions";
+import vuetify from './plugins/vuetify';
 
 // Register Vuex
 Vue.use(Vuex);
@@ -17,5 +18,6 @@ Vue.config.productionTip = false;
 
 new Vue({
     store,
+    vuetify,
     render: h => h(App)
 }).$mount("#app");
