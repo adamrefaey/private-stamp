@@ -1,52 +1,32 @@
 <template>
-	<v-app>
-		<v-app-bar app color="primary" dark>
-			<div class="d-flex align-center">
-				<v-img
-					alt="Vuetify Logo"
-					class="shrink mr-2"
-					contain
-					src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-					transition="scale-transition"
-					width="40"
-				/>
+	<v-app id="app">
+		<v-content v-if="isDrizzleInitialized">
+			<v-app-bar color="surface" dense class="elevation-5">
+				<v-toolbar-title
+					><v-btn
+						color="cyan darken-3"
+						target="_blank"
+						href="https://github.com/mustafarefaey/PrivateStamp"
+						>PrivateStamp</v-btn
+					></v-toolbar-title
+				>
 
-				<v-img
-					alt="Vuetify Name"
-					class="shrink mt-1 hidden-sm-and-down"
-					contain
-					min-width="100"
-					src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-					width="100"
-				/>
-			</div>
-
-			<v-spacer></v-spacer>
-
-			<v-btn
-				href="https://github.com/vuetifyjs/vuetify/releases/latest"
-				target="_blank"
-				text
-			>
-				<span class="mr-2">Latest Release</span>
-				<v-icon>mdi-open-in-new</v-icon>
-			</v-btn>
-		</v-app-bar>
-
-		<v-content>
-			<div v-if="isDrizzleInitialized" id="app">
+				<v-spacer></v-spacer>
+				<Account class="text-right" />
+			</v-app-bar>
+			<v-container fluid>
 				<Notifications />
-				<div>
-					<Account />
-				</div>
-				<div>
-					<h3>Proof of existence:</h3>
-					<StoreHash />
-					<VerifyHash />
-				</div>
-			</div>
-			<div v-else>Loading...</div>
+				<v-row wrap>
+					<v-col cols="6">
+						<AddFile />
+					</v-col>
+					<v-col cols="6">
+						<VerifyHash />
+					</v-col>
+				</v-row>
+			</v-container>
 		</v-content>
+		<v-container v-else><SkeletonLoader /></v-container>
 	</v-app>
 </template>
 
@@ -55,14 +35,16 @@
 	import Notifications from "./components/Notifications";
 	import Account from "./components/Account";
 	import VerifyHash from "./components/VerifyHash";
-	import StoreHash from "./components/StoreHash";
+	import AddFile from "./components/AddFile";
+	import SkeletonLoader from "./components/SkeletonLoader";
 
 	export default {
 		name: "app",
 		components: {
 			Account,
 			VerifyHash,
-			StoreHash,
+			AddFile,
+			SkeletonLoader,
 			Notifications
 		},
 		computed: mapGetters("drizzle", ["isDrizzleInitialized"])
