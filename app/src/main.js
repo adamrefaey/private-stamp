@@ -6,6 +6,10 @@ import drizzleOptions from "./drizzleOptions";
 import vuetify from "./plugins/vuetify";
 import VueIpfs from "./plugins/vue-ipfs";
 import Toasted from "vue-toasted";
+import VueClipboard from "vue-clipboard2";
+
+// Register VueClipboard
+Vue.use(VueClipboard);
 
 // Register Vuex
 Vue.use(Vuex);
