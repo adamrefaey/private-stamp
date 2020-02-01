@@ -3,6 +3,7 @@ import App from "./App.vue";
 import Vuex from "vuex";
 import drizzleVuePlugin from "@drizzle/vue-plugin";
 import drizzleOptions from "./drizzleOptions";
+import vuetify from "./plugins/vuetify";
 import VueIpfs from "./plugins/vue-ipfs";
 import Toasted from "vue-toasted";
 
@@ -24,7 +25,7 @@ Vue.use(Toasted);
 Vue.config.productionTip = false;
 
 new Vue({
-    store,
-    vuetify,
-    render: h => h(App)
+	store,
+	vuetify,
+	render: h => h(App)
 }).$mount("#app");
