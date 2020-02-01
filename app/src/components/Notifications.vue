@@ -3,11 +3,6 @@
 </template>
 
 <script>
-	import Toasted from "vue-toasted";
-	import Vue from "vue";
-
-	Vue.use(Toasted);
-
 	export default {
 		mounted() {
 			const contractEventHandler = ({ eventName, data }) => {

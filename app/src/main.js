@@ -4,6 +4,7 @@ import Vuex from "vuex";
 import drizzleVuePlugin from "@drizzle/vue-plugin";
 import drizzleOptions from "./drizzleOptions";
 import VueIpfs from "./plugins/vue-ipfs";
+import Toasted from "vue-toasted";
 
 // Register Vuex
 Vue.use(Vuex);
@@ -16,6 +17,9 @@ Vue.use(VueIpfs);
 
 // Register the drizzleVuePlugin
 Vue.use(drizzleVuePlugin, { store, drizzleOptions });
+
+// Register Toasted
+Vue.use(Toasted);
 
 Vue.config.productionTip = false;
 
