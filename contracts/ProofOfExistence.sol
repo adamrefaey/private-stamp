@@ -5,7 +5,8 @@ pragma solidity ^0.5.0;
  * @dev Implementation of proof of existence contract.
  */
 contract ProofOfExistence {
-    /// a mapping of the hash uploaders and their hashes, timestamped by the block number
+    /// the owner of the contract
+    address owner;
     mapping(address => mapping(string => uint256)) private hashes;
 
     /// an event to be emitted when a new hash has been added
@@ -14,6 +15,19 @@ contract ProofOfExistence {
         uint256 blockNumber,
         string hash
     );
+
+
+
+    /// checks if the msg.sender is the owner of the contract
+    modifier ownerOnly() {
+        require(msg.sender == owner, "You must be the owner!");
+        _;
+    }
+
+    constructor() public {
+        /// set the owner as the contract deployer
+        owner = msg.sender;
+    }
 
     /// @notice Stores the hash in the contract's state
     /// @param hash The hash to be stored
