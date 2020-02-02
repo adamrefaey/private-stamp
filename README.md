@@ -10,6 +10,10 @@
 
 _Solidity_, _Truffle_, _IPFS_, _Javascript_, _Web Crypto API_, _Vue_, _Vuetify_
 
+## Live version
+
+https://ipfs.io/ipfs/QmdzcSJ6cuyKA23nD3ZRYPVaUFp2rMKeiLEt8W91aWj3NW
+
 ## Demo:
 
 https://www.youtube.com/watch?v=z74hus7oNH8
@@ -28,7 +32,7 @@ https://www.youtube.com/watch?v=z74hus7oNH8
 
 ### Serverless:
 
--   The app does not need a backend server to run
+-   The app does not need a backend server to run, it's deployed on IPFS
 
 ### Cheap:
 
