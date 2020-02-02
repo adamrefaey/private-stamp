@@ -7,6 +7,14 @@ pragma solidity ^0.5.0;
 contract ProofOfExistence {
     /// the owner of the contract
     address owner;
+
+    /// frontend app version
+    uint256 appVersion;
+
+    /// a circuit breaker to stop the contract
+    bool public contractStatus = true;
+
+    /// a mapping of the hash uploaders and their hashes, stamped by the block number
     mapping(address => mapping(string => uint256)) private hashes;
 
     /// an event to be emitted when a new hash has been added
@@ -17,10 +25,18 @@ contract ProofOfExistence {
     );
 
 
+    /// an event to be emitted when the contract status is updated
+    event LogContractStatusUpdated(bool contractStatus);
 
     /// checks if the msg.sender is the owner of the contract
     modifier ownerOnly() {
         require(msg.sender == owner, "You must be the owner!");
+        _;
+    }
+
+    /// stopInEmergency
+    modifier stopInEmergency {
+        require(contractStatus, "The contract is down currently!");
         _;
     }
 
@@ -31,7 +47,7 @@ contract ProofOfExistence {
 
     /// @notice Stores the hash in the contract's state
     /// @param hash The hash to be stored
-    function storeHash(string memory hash) public {
+    function storeHash(string memory hash) public stopInEmergency {
         require(
             hashes[msg.sender][hash] == 0,
             "This hash has been stored previously!"
@@ -50,6 +66,7 @@ contract ProofOfExistence {
     function verifyHash(address hashUploader, string memory hash)
         public
         view
+        stopInEmergency
         returns (uint256)
     {
         return hashes[hashUploader][hash];
