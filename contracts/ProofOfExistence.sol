@@ -12,7 +12,7 @@ contract ProofOfExistence {
     uint256 appVersion;
 
     /// a circuit breaker to stop the contract
-    bool public contractStatus = true;
+    bool public contractStatus;
 
     /// a mapping of the hash uploaders and their hashes, stamped by the block number
     mapping(address => mapping(string => uint256)) private hashes;
@@ -45,6 +45,9 @@ contract ProofOfExistence {
     constructor() public {
         /// set the owner as the contract deployer
         owner = msg.sender;
+
+        appVersion = 1;
+        contractStatus = true;
     }
 
     /// @notice Stores the hash in the contract's state
