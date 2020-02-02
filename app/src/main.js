@@ -28,6 +28,8 @@ Vue.use(Toasted);
 
 Vue.config.productionTip = false;
 
+document.title = "PrivateStamp";
+
 new Vue({
 	store,
 	vuetify,
