@@ -84,20 +84,18 @@
 		name: "VerifyHash",
 		components: { Log },
 		mounted: function() {
-			this.createIpfsNode();
+			this.loadIpfsNode();
 		},
 		computed: {
 			...mapGetters("drizzle", ["drizzleInstance"])
 		},
 		methods: {
-			createIpfsNode: async function() {
+			loadIpfsNode: async function() {
 				try {
-					// Await for ipfs node instance.
 					this.ipfsNode = await this.$ipfs;
-
-					// Set successful status text.
-					this.$toasted.success("Connected to IPFS =)", {
-						duration: 2000,
+				} catch (error) {
+					this.$toasted.error(error, {
+						duration: 5000,
 						// you can pass a single action as below
 						action: {
 							text: "Close",
@@ -105,23 +103,8 @@
 								toastObject.goAway(0);
 							}
 						},
-						position: "top-right"
+						position: "top-center"
 					});
-				} catch (err) {
-					this.$toasted.error(
-						"Couldn't connect to IPFS, hence won't be able to upload the file!",
-						{
-							duration: null,
-							// you can pass a single action as below
-							action: {
-								text: "Close",
-								onClick: (e, toastObject) => {
-									toastObject.goAway(0);
-								}
-							},
-							position: "top-center"
-						}
-					);
 				}
 			},
 			addToLog: function(

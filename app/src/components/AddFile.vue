@@ -69,9 +69,26 @@
 			...mapGetters("drizzle", ["drizzleInstance"])
 		},
 		mounted: function() {
-			this.createIpfsNode();
+			this.loadIpfsNode();
 		},
 		methods: {
+			loadIpfsNode: async function() {
+				try {
+					this.ipfsNode = await this.$ipfs;
+				} catch (error) {
+					this.$toasted.error(error, {
+						duration: 5000,
+						// you can pass a single action as below
+						action: {
+							text: "Close",
+							onClick: (e, toastObject) => {
+								toastObject.goAway(0);
+							}
+						},
+						position: "top-center"
+					});
+				}
+			},
 			addToLog: function(
 				text = "",
 				error = false,
@@ -91,40 +108,6 @@
 					downloadName,
 					downloadHref
 				});
-			},
-			createIpfsNode: async function() {
-				try {
-					// Await for ipfs node instance.
-					this.ipfsNode = await this.$ipfs;
-
-					// Set successful status text.
-					this.$toasted.success("Connected to IPFS =)", {
-						duration: 2000,
-						// you can pass a single action as below
-						action: {
-							text: "Close",
-							onClick: (e, toastObject) => {
-								toastObject.goAway(0);
-							}
-						},
-						position: "top-right"
-					});
-				} catch (err) {
-					this.$toasted.error(
-						"Couldn't connect to IPFS, hence won't be able to upload the file!",
-						{
-							duration: null,
-							// you can pass a single action as below
-							action: {
-								text: "Close",
-								onClick: (e, toastObject) => {
-									toastObject.goAway(0);
-								}
-							},
-							position: "top-center"
-						}
-					);
-				}
 			},
 			onSubmit: async function() {
 				if (!this.fileInput || !this.password) {
