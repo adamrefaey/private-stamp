@@ -1,5 +1,5 @@
 <template>
-	<kbd class="cyan darken-3">
+	<kbd class="d-inline-block cyan darken-3">
 		<v-tooltip
 			bottom
 			v-model="showToolTip"
