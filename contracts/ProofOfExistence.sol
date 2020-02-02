@@ -88,5 +88,17 @@ contract ProofOfExistence {
         return appVersion;
     }
 
+    /// @notice Enable/Disable contract functionality (a circuit breaker)
+    /// @param _contractStatus The new circuit breaker state
+    function updateContractStatus(bool _contractStatus) public ownerOnly {
+        contractStatus = _contractStatus;
+
+        emit LogContractStatusUpdated(_contractStatus);
+    }
+
+    /// @notice Retrieves the contract status
+    /// @return the contract status
+    function getContractStatus() public view returns (bool) {
+        return contractStatus;
     }
 }
