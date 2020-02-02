@@ -1,6 +1,6 @@
 <template>
 	<v-app id="app">
-		<v-content v-if="isDrizzleInitialized">
+		<v-content v-if="isDrizzleInitialized && appIsUpToDate">
 			<v-app-bar color="surface" dense class="elevation-5">
 				<v-toolbar-title
 					><v-btn
@@ -26,6 +26,9 @@
 				</v-row>
 			</v-container>
 		</v-content>
+		<v-container v-else-if="isDrizzleInitialized && !appIsUpToDate"
+			><AppOutdated
+		/></v-container>
 		<v-container v-else><SkeletonLoader /></v-container>
 	</v-app>
 </template>
@@ -37,6 +40,8 @@
 	import VerifyHash from "./components/VerifyHash";
 	import AddFile from "./components/AddFile";
 	import SkeletonLoader from "./components/SkeletonLoader";
+	import AppOutdated from "./components/AppOutdated";
+	import { APP_VERSION } from "./appConfig";
 
 	export default {
 		name: "app",
@@ -45,9 +50,29 @@
 			VerifyHash,
 			AddFile,
 			SkeletonLoader,
-			Notifications
+			Notifications,
+			AppOutdated
 		},
-		computed: mapGetters("drizzle", ["isDrizzleInitialized"])
+		computed: {
+			...mapGetters("drizzle", ["isDrizzleInitialized", "drizzleInstance"])
+		},
+		mounted: function() {
+			if (this.isDrizzleInitialized) {
+				this.drizzleInstance.contracts.ProofOfExistence.methods
+					.getAppVersion()
+					.call()
+					.then(appVersion => {
+						console.log(`appVersion: ${appVersion}`);
+						//compare
+						if (appVersion != APP_VERSION) {
+							this.appIsUpToDate = false;
+						}
+					});
+			}
+		},
+		data: () => ({
+			appIsUpToDate: true
+		})
 	};
 </script>
 <style scoped>
