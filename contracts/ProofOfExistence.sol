@@ -24,6 +24,8 @@ contract ProofOfExistence {
         string hash
     );
 
+    /// an event to be emitted when a new hash has been added
+    event LogAppVersionUpdated(uint256 appVersion);
 
     /// an event to be emitted when the contract status is updated
     event LogContractStatusUpdated(bool contractStatus);
@@ -71,5 +73,20 @@ contract ProofOfExistence {
     {
         return hashes[stampper][hash];
     }
+
+    /// @notice Updates the frontend app version
+    /// @param _appVersion The new frontend app version
+    function updateAppVersion(uint256 _appVersion) public ownerOnly {
+        appVersion = _appVersion;
+
+        emit LogAppVersionUpdated(_appVersion);
+    }
+
+    /// @notice Retrieves the frontend app version
+    /// @return the frontend app version
+    function getAppVersion() public view returns (uint256) {
+        return appVersion;
+    }
+
     }
 }
