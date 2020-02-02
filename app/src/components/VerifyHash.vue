@@ -132,7 +132,7 @@
 					this.$toasted.error(
 						"Stampper's address and file's hash are required!",
 						{
-							duration: null,
+							duration: 5000,
 							// you can pass a single action as below
 							action: {
 								text: "Close",
@@ -186,6 +186,7 @@
 							`Decrypted-file`,
 							urlFromBlob(decryptedFile)
 						);
+						this.addToLog("Finished decrypting file...");
 					})
 					.catch(err => {
 						this.$toasted.error(err, {
@@ -199,21 +200,13 @@
 							},
 							position: "top-center"
 						});
-						this.addToLog(
-							"",
-							false,
-							null,
-							true,
-							"Save decrypted file",
-							`Decrypted-file`,
-							urlFromBlob(err)
-						);
 					});
 			}
 		},
 		data: () => ({
 			stampper: "",
 			hash: "",
+			password: "",
 			ipfsNode: null,
 			isVerifying: false,
 			log: [],
