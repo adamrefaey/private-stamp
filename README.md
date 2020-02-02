@@ -32,6 +32,20 @@ https://www.youtube.com/watch?v=z74hus7oNH8
 
 ### Cheap:
 
--   Currently, the app is deployed on test network, so using it is FREE anyway.
+`Currently, the app is deployed on test network, so using it is FREE anyway.`
+
+-   All expensive operations, such as encryption/decryption/hashing are done locally, only the string that represent the hash that is stored on ethereum.
 
 ## Development:
+
+Requirements: `npm` or `yarn` & `truffle`
+
+Smart contract interaction:
+
+-   `truffle migrate`
+
+Frontend app interaction:
+
+-   `cd app`
+-   `npm install` or `yarn`
+-   `npm run serve` or `yarn serve`
