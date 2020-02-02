@@ -10,6 +10,8 @@
 
 _Solidity_, _Truffle_, _IPFS_, _Javascript_, _Web Crypto API_, _Vue_, _Vuetify_
 
+## You need MetaMask extension installed to interact with the app
+
 ## Live version
 
 https://ipfs.io/ipfs/QmdzcSJ6cuyKA23nD3ZRYPVaUFp2rMKeiLEt8W91aWj3NW
