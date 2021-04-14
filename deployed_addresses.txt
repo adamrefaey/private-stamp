@@ -1,0 +1,3 @@
+Network: Rinkeby
+Contract: PrivateStamp
+Address: 0x10FE0cC28e655c8118C818811d7C65BFB63D681a
