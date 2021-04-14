@@ -12,7 +12,7 @@
 
 _Solidity_, _Hardhat_, _Typescript_, _Web Crypto API_, _React_, _ChakraUI_
 
-## You need MetaMask extension installed to interact with the app
+## To interact with the app, you need MetaMask extension installed, and connected to Rinkeby network.
 
 ## Features:
 
