@@ -76,7 +76,7 @@ export async function encryptFile(
             );
           })
           .catch(function () {
-            reject("An error occured while Encrypting the file, try again!");
+            reject("An error occurred while Encrypting the file, try again!");
           });
 
         onFinish();
