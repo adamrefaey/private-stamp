@@ -1,6 +1,6 @@
 //import key
 // import the entered key from the password input
-function importSecretKey(password) {
+function importSecretKey(password: string) {
   let enc = new TextEncoder();
   return window.crypto.subtle.importKey(
     "raw",
@@ -11,7 +11,7 @@ function importSecretKey(password) {
   );
 }
 
-async function deriveEncryptionSecretKey(password, salt) {
+async function deriveEncryptionSecretKey(password: string, salt: Uint8Array) {
   let keyMaterial = await importSecretKey(password);
 
   /*
@@ -34,8 +34,8 @@ async function deriveEncryptionSecretKey(password, salt) {
 
 //file encryption function
 export async function encryptFile(
-  file,
-  password,
+  file: File,
+  password: string,
   onStart = () => {},
   onFinish = () => {}
 ) {
@@ -48,13 +48,15 @@ export async function encryptFile(
     fr.readAsArrayBuffer(file); //read the file as buffer
 
     return new Promise((resolve, reject) => {
-      fr.onloadstart = async () => {
-        onStart();
-      };
+      fr.onloadstart = onStart;
 
       fr.onload = async () => {
+        if (!fr.result) {
+          throw Error("File is empty");
+        }
+
         const iv = window.crypto.getRandomValues(new Uint8Array(12)); //generate a random iv
-        const content = new Uint8Array(fr.result); //encoded file content
+        const content = new Uint8Array(fr.result as ArrayBuffer); //encoded file content
         // encrypt the file
         await window.crypto.subtle
           .encrypt(
@@ -85,8 +87,8 @@ export async function encryptFile(
 
 //file decryption function
 export async function decryptFile(
-  file,
-  password,
+  file: File,
+  password: string,
   onStart = () => {},
   onFinish = () => {}
 ) {
@@ -101,14 +103,17 @@ export async function decryptFile(
 
       fr.onload = async () => {
         async function deriveDecryptionSecretKey() {
-          //derive the secret key from a master key.
+          if (!fr.result) {
+            throw Error("File is empty");
+          }
 
+          //derive the secret key from a master key.
           let getSecretKey = await importSecretKey(password);
 
           return window.crypto.subtle.deriveKey(
             {
               name: "PBKDF2",
-              salt: new Uint8Array(fr.result.slice(12, 28)), //get salt from encrypted file.
+              salt: new Uint8Array((fr.result as ArrayBuffer).slice(12, 28)), //get salt from encrypted file.
               iterations: 100000,
               hash: "SHA-256",
             },
@@ -125,9 +130,9 @@ export async function decryptFile(
 
         const derivedKey = await deriveDecryptionSecretKey(); //requiring the key
 
-        const iv = new Uint8Array(fr.result.slice(0, 12)); //take out encryption iv
+        const iv = new Uint8Array((fr.result as ArrayBuffer).slice(0, 12)); //take out encryption iv
 
-        const content = new Uint8Array(fr.result.slice(32)); //take out encrypted content
+        const content = new Uint8Array((fr.result as ArrayBuffer).slice(32)); //take out encrypted content
 
         await window.crypto.subtle
           .decrypt(
