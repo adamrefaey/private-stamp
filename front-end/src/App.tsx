@@ -1,38 +1,51 @@
-import * as React from "react"
+import React, { useEffect } from "react";
 import {
   ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
   theme,
-} from "@chakra-ui/react"
-import { ColorModeSwitcher } from "./ColorModeSwitcher"
-import { Logo } from "./Logo"
+  useToast,
+  Flex,
+  SimpleGrid,
+} from "@chakra-ui/react";
+import { connectToMetamask } from "./utils/ethereum";
+import AppHeader from "./components/AppHeader";
+import StampContainer from "./components/stamp";
+import VerifyContainer from "./components/verify";
 
-export const App = () => (
-  <ChakraProvider theme={theme}>
-    <Box textAlign="center" fontSize="xl">
-      <Grid minH="100vh" p={3}>
-        <ColorModeSwitcher justifySelf="flex-end" />
-        <VStack spacing={8}>
-          <Logo h="40vmin" pointerEvents="none" />
-          <Text>
-            Edit <Code fontSize="xl">src/App.tsx</Code> and save to reload.
-          </Text>
-          <Link
-            color="teal.500"
-            href="https://chakra-ui.com"
-            fontSize="2xl"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn Chakra
-          </Link>
-        </VStack>
-      </Grid>
-    </Box>
-  </ChakraProvider>
-)
+export const App: React.FC = () => {
+  const toast = useToast();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        await connectToMetamask();
+        toast({
+          position: "top-left",
+          title: "Metamask connected successfully.",
+          status: "success",
+          duration: 2000,
+          // isClosable: true,
+        });
+      } catch (err) {
+        toast({
+          position: "top-left",
+          title: err.message,
+          status: "error",
+          duration: null,
+          isClosable: true,
+        });
+      }
+    })();
+  }, [toast]);
+
+  return (
+    <ChakraProvider theme={theme}>
+      <Flex minH="100vh" flexDirection="column" px="10" py="5">
+        <AppHeader />
+        <SimpleGrid columns={{ base: 1, md: 2 }} spacing="5">
+          <StampContainer />
+          <VerifyContainer />
+        </SimpleGrid>
+      </Flex>
+    </ChakraProvider>
+  );
+};
