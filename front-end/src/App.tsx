@@ -3,7 +3,7 @@ import { ChakraProvider, theme, Flex, SimpleGrid } from "@chakra-ui/react";
 import AppHeader from "./components/AppHeader";
 import StampContainer from "./components/stamp";
 import VerifyContainer from "./components/verify";
-import MetamaskProvider from "./components/MetamaskProvider";
+import MetamaskProvider from "./providers/MetamaskProvider";
 
 export const App: React.FC = () => {
   return (

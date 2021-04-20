@@ -24,12 +24,13 @@ export async function connectToMetamask(): Promise<providers.Web3Provider> {
 
 export function getConnectedAccount(
   web3Provider: providers.Web3Provider
-): providers.JsonRpcSigner {
-  return web3Provider?.getSigner();
+): providers.JsonRpcSigner | undefined {
+  return web3Provider ? web3Provider.getSigner() : undefined;
 }
 
 export async function getConnectedAccountAddress(
   web3Provider: providers.Web3Provider
 ): Promise<string> {
-  return await web3Provider?.getSigner().getAddress();
+  const signer = getConnectedAccount(web3Provider);
+  return signer ? await signer.getAddress() : new Promise(() => "");
 }
