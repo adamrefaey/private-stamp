@@ -38,7 +38,7 @@ export async function encryptFile(
   password: string,
   onStart = () => {},
   onFinish = () => {}
-) {
+): Promise<{ file: Blob; hash: string }> {
   if (!file || !password) {
     throw new Error("File and password are required!");
   } else {
@@ -67,15 +67,22 @@ export async function encryptFile(
             derivedKey,
             content
           )
-          .then(function (encrypted) {
+          .then(async (encrypted) => {
             //returns an ArrayBuffer containing the encrypted data
-            resolve(
-              new Blob([iv, salt, new Uint8Array(encrypted)], {
-                type: "application/octet-stream",
-              })
-            );
+            const encryptedFileBuffer = [iv, salt, new Uint8Array(encrypted)];
+
+            const file = new Blob(encryptedFileBuffer, {
+              type: "application/octet-stream",
+            });
+            const hashBuffer = await crypto.subtle.digest("SHA-256", encrypted);
+            const hashArray = Array.from(new Uint8Array(hashBuffer)); // convert buffer to byte array
+            const hash = hashArray
+              .map((b) => b.toString(16).padStart(2, "0"))
+              .join(""); // convert bytes to hex string
+
+            resolve({ file, hash });
           })
-          .catch(function () {
+          .catch(() => {
             reject("An error occurred while Encrypting the file, try again!");
           });
 
