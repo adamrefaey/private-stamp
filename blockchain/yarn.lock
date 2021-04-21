@@ -3066,7 +3066,7 @@ ethereumjs-wallet@0.6.5:
     utf8 "^3.0.0"
     uuid "^3.3.2"
 
-ethers@^5.0.0, ethers@^5.0.1, ethers@^5.0.2, ethers@^5.1.0:
+ethers@^5.0.0, ethers@^5.0.1, ethers@^5.0.2, ethers@^5.1.3:
   version "5.1.3"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.1.3.tgz#68eb48742b8a8ca53480bca2e53fb314c23fea7f"
   integrity sha512-QAj+LG3z5HsK6UDAOdCjDEthWioZ7sTzAcMWyVrQF+ACioalQ99NrrSxIq5qS0c+hoy3TAIjqpYteHgC2Iqy+w==
@@ -3686,7 +3686,7 @@ hardhat-abi-exporter@^2.2.0:
   resolved "https://registry.yarnpkg.com/hardhat-abi-exporter/-/hardhat-abi-exporter-2.2.0.tgz#fc5b4c4cb7441fe2b65a1fd2f2e2c9dede624f60"
   integrity sha512-rr3Sm8NnGTwfwnM65PQrs1x5z7A4P3Xs2MNMdnCWheQrsD/uPl0RnN+r3vo2GbLxauZ0xHbvWMfXvrgrd4WCEw==
 
-hardhat@^2.1.2:
+hardhat@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/hardhat/-/hardhat-2.2.0.tgz#7d569d29678e5f786a228390b4c0b0cc9fd8ae32"
   integrity sha512-3g0qFoQTkR4gfcHDZr59vPfbSH2PiAyxzYblkAAHUNTPBadO5W26z5RWzDv6/lRu8SqZZ9/8AdGZX4IZEa8EDg==
