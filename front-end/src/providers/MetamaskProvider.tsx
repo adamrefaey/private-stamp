@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useToast } from "@chakra-ui/react";
-import { connectToMetamask } from "../utils/ethereum";
+import { connectToMetamask, getConnectedAccount } from "../utils/ethereum";
 import Web3Context from "../contexts/Web3Context";
-import { providers } from "ethers";
+import { ethers, providers } from "ethers";
+const contractAbi = require("../contract-abi/PrivateStamp.json");
 
 const MetamaskProvider: React.FC = ({ children }) => {
   const toast = useToast();
   const [web3Provider, setWeb3Provider] = useState<
     undefined | providers.Web3Provider
   >(undefined);
+  const [contract, setContract] = useState<undefined | ethers.Contract>(
+    undefined
+  );
 
   useEffect(() => {
     (async () => {
@@ -35,10 +39,22 @@ const MetamaskProvider: React.FC = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (web3Provider) {
+      const contract = new ethers.Contract(
+        "0x10FE0cC28e655c8118C818811d7C65BFB63D681a",
+        contractAbi,
+        getConnectedAccount(web3Provider)
+      );
+      setContract(contract);
+    }
+  }, [web3Provider]);
+
   return (
     <Web3Context.Provider
       value={{
         web3Provider,
+        contract,
       }}
     >
       {children}
