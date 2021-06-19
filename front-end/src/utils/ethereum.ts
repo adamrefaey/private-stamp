@@ -1,4 +1,4 @@
-import { ethers, providers } from "ethers";
+import { providers } from "ethers";
 
 export async function connectToMetamask(): Promise<providers.Web3Provider> {
   const ethereum = (window as any).ethereum;
@@ -7,19 +7,24 @@ export async function connectToMetamask(): Promise<providers.Web3Provider> {
     throw Error("Metamask extension is missing");
   }
 
+  let metamaskProvider: providers.Web3Provider;
+  let network: providers.Network;
+
   try {
     await ethereum.enable();
-    const provider = new ethers.providers.Web3Provider(ethereum);
-    if ((await provider.getNetwork()).name !== "rinkeby") {
-      throw Error(
-        "Please make sure that Metamask is connected to Rinkeby network"
-      );
-    }
-
-    return provider;
+    metamaskProvider = new providers.Web3Provider(ethereum);
+    network = await metamaskProvider.getNetwork();
   } catch (err) {
     throw Error("Please accept Metamask connection to this app");
   }
+
+  if (network.name !== "rinkeby") {
+    throw Error(
+      "Please make sure that Metamask is connected to Rinkeby network"
+    );
+  }
+
+  return metamaskProvider;
 }
 
 export function getConnectedAccount(
