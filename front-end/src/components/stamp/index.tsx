@@ -29,21 +29,39 @@ const StampContainer: React.FC<StampContainerProps> = () => {
     setStampLog((prevStampLog) => [<Text>Encrypting file...</Text>]);
 
     const target = e.target as EventTarget & formPayload;
-    const { file, hash } = await encryptFile(
-      target.file.files[0],
-      target.password.value
-    );
+
+    let encryptionResult: {
+      file: Blob;
+      hash: string;
+    };
+
+    try {
+      encryptionResult = await encryptFile(
+        target.file.files[0],
+        target.password.value
+      );
+    } catch (err) {
+      toast({
+        position: "top-left",
+        title: "File encryption failed!",
+        status: "error",
+        duration: null,
+        isClosable: true,
+      });
+
+      return;
+    }
 
     setStampLog((prevStampLog) => [
       ...prevStampLog,
       <Text>File encrypted successfully!</Text>,
-      <Text>File Hash: {hash}</Text>,
-      <Button as="a" href={URL.createObjectURL(file)}>
+      <Text>File Hash: {encryptionResult.hash}</Text>,
+      <Button as="a" href={URL.createObjectURL(encryptionResult.file)}>
         Download encrypted file
       </Button>,
     ]);
 
-    contract.storeHash(hash);
+    contract.storeHash(encryptionResult.hash);
   };
 
   useEffect(() => {
@@ -54,7 +72,7 @@ const StampContainer: React.FC<StampContainerProps> = () => {
             toast({
               position: "top-left",
               title:
-                "Your file was successfully stampped and added to block " +
+                "Your file was successfully stamped and added to block " +
                 args[3].blockNumber,
               status: "success",
               duration: null,
