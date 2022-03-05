@@ -1,52 +1,40 @@
-# PrivateStamp (Alpha version)
+# PrivateStamp (Beta version)
 
-### A private proof-of-existence DApp.
+#### A private proof-of-existence DApp.
 
-### Prove that you've had a file (of any type & size) at a certain time without compromising your privacy.
+#### Prove that you've had a file at a certain time without compromising your privacy.
+
+Currently, under active development
+
+### You can view `previous version` [here](https://github.com/mustafarefaey/private-stamp/tree/cd9f32a6b13eb932b1a02d761e97303841b260ff)
 
 `Currently deployed on Rinkeby network`
 
 ## Technologies used:
 
-_Solidity_, _Truffle_, _IPFS_, _Javascript_, _Web Crypto API_, _Vue_, _Vuetify_
+_Solidity_, _Hardhat_, _Typescript_, _Web Crypto API_, _React_, _ChakraUI_
 
-## You need MetaMask extension installed to interact with the app
-
-## Demo:
-
-https://www.youtube.com/watch?v=z74hus7oNH8
+## To interact with the app, you need MetaMask extension installed, and connected to Rinkeby network.
 
 ## Features:
 
 ### Secure:
 
--   Your original file is never transmitted over the network, both encryption & decryption happen locally.
+- Your original file is never transmitted over the network, both encryption & decryption happen locally.
 
--   Every encryption process generate a different file/hash even if the same file is encrypted with the same password, that's because a random salt is generated everytime.
+- Every encryption process generate a different file/hash even if the same file is encrypted with the same password, that's because a random salt is generated every time.
 
 ### Decentralized:
 
--   Relies on Ethereum blockchain to store/retrieve data
+- Relies on Ethereum blockchain to store/retrieve data
 
-### Cheap:
+### Encryption details:
 
-`Currently, the app is deployed on test network, so using it is FREE anyway.`
+- PBKDF2: this crypto function is used to derive a strong encryption key from the password supplied by the user, to reduce vulnerabilities of brute-force attacks.
 
--   All expensive operations, such as encryption/decryption/hashing are done locally, only the string that represent the hash that is stored on ethereum.
+- AES-GCM 256: this is the algorithm used to encrypt the file
 
-## Development:
-
-Requirements:
-- NodeJS v10 (with node-gyp installed globally)
-- `npm` or `yarn`
-- `truffle`
-
-Smart contract interaction:
-
--   `truffle migrate`
-
-Frontend app interaction:
-
--   `cd app`
--   `npm install` or `yarn`
--   `npm run serve` or `yarn serve`
+- Encrypted file contents:
+  - "Bytes from `0` to `11`" contain the IV.
+  - "Bytes from `12` to `27`" contain the salt.
+  - "Bytes from `28` to the end" contain the encrypted contents of the file.
